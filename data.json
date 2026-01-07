@@ -18,17 +18,13 @@
       "density_g_cm3": 7.93,
       "price_per_kg": 22.5,
       "surface_finish": "2B",
-      "notes": "默认食品级应用"
-    },
-    {
-      "code": "SS201",
-      "name": "不锈钢 201",
-      "category": "stainless_steel",
-      "unit": "kg",
-      "density_g_cm3": 7.85,
-      "price_per_kg": 14.2,
-      "surface_finish": "BA",
-      "notes": "性价比选项"
+      "notes": "食品级应用",
+      "pricing_mode": "by_sheet",
+      "sheet_options": [
+        { "sheet_length_mm": 2440, "sheet_width_mm": 1220, "thickness_mm": 1.5, "sheet_price": 235 },
+        { "sheet_length_mm": 2440, "sheet_width_mm": 1220, "thickness_mm": 2.0, "sheet_price": 290 },
+        { "sheet_length_mm": 3000, "sheet_width_mm": 1500, "thickness_mm": 2.0, "sheet_price": 390 }
+      ]
     },
     {
       "code": "AL6061",
@@ -38,27 +34,13 @@
       "density_g_cm3": 2.70,
       "price_per_kg": 19.5,
       "surface_finish": "去氧化皮",
-      "notes": "通用结构件"
-    },
-    {
-      "code": "AL5052",
-      "name": "铝合金 5052",
-      "category": "aluminum",
-      "unit": "kg",
-      "density_g_cm3": 2.68,
-      "price_per_kg": 18.0,
-      "surface_finish": "去氧化皮",
-      "notes": "折弯性能好"
-    },
-    {
-      "code": "CS_Q235",
-      "name": "碳钢 Q235",
-      "category": "carbon_steel",
-      "unit": "kg",
-      "density_g_cm3": 7.85,
-      "price_per_kg": 6.8,
-      "surface_finish": "未镀锌",
-      "notes": "需后续防锈处理"
+      "notes": "通用结构件",
+      "pricing_mode": "by_sheet",
+      "sheet_options": [
+        { "sheet_length_mm": 2440, "sheet_width_mm": 1220, "thickness_mm": 2.0, "sheet_price": 190 },
+        { "sheet_length_mm": 2440, "sheet_width_mm": 1220, "thickness_mm": 3.0, "sheet_price": 260 },
+        { "sheet_length_mm": 3000, "sheet_width_mm": 1500, "thickness_mm": 3.0, "sheet_price": 360 }
+      ]
     }
   ],
   "processes": [
@@ -102,14 +84,7 @@
       "name": "Powder Coating",
       "unit_rate_per_min": 0.40,
       "setup_cost": 12.0,
-      "description": "Electrostatic powder coating, cure included"
-    },
-    {
-      "code": "ELECTROPLATING",
-      "name": "Electroplating",
-      "unit_rate_per_min": 0.55,
-      "setup_cost": 18.0,
-      "description": "Nickel/Chrome options"
+      "description": "Electrostatic powder coating"
     },
     {
       "code": "PACKING",
@@ -120,57 +95,90 @@
     }
   ],
   "quantity_tiers": [
-    { "min_qty": 1, "max_qty": 49, "multiplier": 1.12, "label": "proto/small batch" },
-    { "min_qty": 50, "max_qty": 199, "multiplier": 1.00, "label": "standard" },
-    { "min_qty": 200, "max_qty": 999, "multiplier": 0.93, "label": "mid-volume" },
-    { "min_qty": 1000, "max_qty": null, "multiplier": 0.88, "label": "mass production" }
+    { "min_qty": 1, "max_qty": 49, "multiplier": 1.12, "label": "小批量" },
+    { "min_qty": 50, "max_qty": 199, "multiplier": 1.00, "label": "常规" },
+    { "min_qty": 200, "max_qty": 999, "multiplier": 0.93, "label": "中批量" },
+    { "min_qty": 1000, "max_qty": null, "multiplier": 0.88, "label": "大批量" }
   ],
-  "product_templates": [
+  "parts": [
     {
-      "sku": "TMP-HINGE-001",
-      "name": "重型不锈钢合页",
+      "part_code": "CSD-BODY-01",
+      "name": "机身外壳",
       "material_code": "SS304",
-      "weight_kg_per_unit": 0.38,
-      "default_processes": [
-        { "process_code": "LASER_CUT", "minutes": 1.8 },
-        { "process_code": "BENDING", "minutes": 1.2 },
-        { "process_code": "POLISHING", "minutes": 1.5 },
-        { "process_code": "PACKING", "minutes": 0.4 }
-      ],
-      "packaging_type": "内袋+外箱",
-      "freight_weight_factor": 1.05,
-      "base_overhead_pct": 0.08
+      "thickness_mm": 1.5,
+      "blank_length_mm": 210,
+      "blank_width_mm": 130,
+      "allow_rotate": true,
+      "edge_margin_mm": 10,
+      "kerf_mm": 2,
+      "nest_efficiency": 0.85,
+      "process_steps": [
+        { "process_code": "LASER_CUT", "minutes_per_unit": 2.2, "enabled": true },
+        { "process_code": "BENDING", "minutes_per_unit": 1.4, "enabled": true },
+        { "process_code": "POLISHING", "minutes_per_unit": 1.0, "enabled": true }
+      ]
     },
     {
-      "sku": "TMP-HANDLE-002",
-      "name": "铝合金拉手",
+      "part_code": "CSD-BACK-01",
+      "name": "背板",
+      "material_code": "SS304",
+      "thickness_mm": 1.5,
+      "blank_length_mm": 190,
+      "blank_width_mm": 120,
+      "allow_rotate": true,
+      "edge_margin_mm": 10,
+      "kerf_mm": 2,
+      "nest_efficiency": 0.85,
+      "process_steps": [
+        { "process_code": "LASER_CUT", "minutes_per_unit": 1.6, "enabled": true },
+        { "process_code": "BENDING", "minutes_per_unit": 0.8, "enabled": true }
+      ]
+    },
+    {
+      "part_code": "CSD-BRACKET-01",
+      "name": "内支架",
       "material_code": "AL6061",
-      "weight_kg_per_unit": 0.22,
-      "default_processes": [
-        { "process_code": "CNC", "minutes": 3.6 },
-        { "process_code": "POLISHING", "minutes": 1.0 },
-        { "process_code": "POWDER_COATING", "minutes": 2.2 },
-        { "process_code": "PACKING", "minutes": 0.3 }
-      ],
-      "packaging_type": "气泡袋+外箱",
-      "freight_weight_factor": 1.02,
-      "base_overhead_pct": 0.07
-    },
+      "thickness_mm": 2.0,
+      "blank_length_mm": 120,
+      "blank_width_mm": 60,
+      "allow_rotate": true,
+      "edge_margin_mm": 10,
+      "kerf_mm": 2,
+      "nest_efficiency": 0.85,
+      "process_steps": [
+        { "process_code": "LASER_CUT", "minutes_per_unit": 1.2, "enabled": true },
+        { "process_code": "BENDING", "minutes_per_unit": 0.6, "enabled": true }
+      ]
+    }
+  ],
+  "purchased_items": [
+    { "item_code": "PUMP-ASSY-01", "name": "泵组件", "unit_cost": 6.8, "uom": "set", "waste_pct": 0.02, "moq_qty": 50 },
+    { "item_code": "SCREW-SET-01", "name": "螺丝包", "unit_cost": 0.35, "uom": "set", "waste_pct": 0.01 },
+    { "item_code": "SPRING-01", "name": "回弹弹簧", "unit_cost": 0.12, "uom": "pc", "waste_pct": 0.02 }
+  ],
+  "packaging_rules": {
+    "per_unit": [
+      { "item_code": "PK-BAG-01", "unit_cost": 0.08, "qty_per_unit": 1 }
+    ],
+    "per_carton": [
+      { "item_code": "PK-CARTON-01", "unit_cost": 1.2, "units_per_carton": 20 }
+    ]
+  },
+  "products": [
     {
-      "sku": "TMP-BRACKET-003",
-      "name": "碳钢角码",
-      "material_code": "CS_Q235",
-      "weight_kg_per_unit": 0.15,
-      "default_processes": [
-        { "process_code": "LASER_CUT", "minutes": 1.0 },
-        { "process_code": "BENDING", "minutes": 0.8 },
-        { "process_code": "WELDING", "minutes": 1.4 },
-        { "process_code": "ELECTROPLATING", "minutes": 2.5 },
-        { "process_code": "PACKING", "minutes": 0.3 }
-      ],
-      "packaging_type": "散装+外箱",
-      "freight_weight_factor": 1.08,
-      "base_overhead_pct": 0.09
+      "sku": "CSD-100",
+      "name": "商用皂液器",
+      "units_per_carton": 20,
+      "bom_lines": [
+        { "type": "part", "code": "CSD-BODY-01", "qty_per_unit": 1, "optional": false },
+        { "type": "part", "code": "CSD-BACK-01", "qty_per_unit": 1, "optional": false },
+        { "type": "part", "code": "CSD-BRACKET-01", "qty_per_unit": 1, "optional": false },
+        { "type": "purchased", "code": "PUMP-ASSY-01", "qty_per_unit": 1, "optional": false },
+        { "type": "purchased", "code": "SCREW-SET-01", "qty_per_unit": 1, "optional": false },
+        { "type": "purchased", "code": "SPRING-01", "qty_per_unit": 1, "optional": true },
+        { "type": "packaging", "code": "PK-BAG-01", "qty_per_unit": 1, "optional": false },
+        { "type": "packaging", "code": "PK-CARTON-01", "qty_per_unit": 1, "optional": false }
+      ]
     }
   ]
 }
